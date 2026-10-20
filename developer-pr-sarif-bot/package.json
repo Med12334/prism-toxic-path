@@ -1,0 +1,9 @@
+{
+  "name": "prism-developer-pr-sarif-bot",
+  "version": "1.0.0",
+  "description": "Delivers prioritized Toxic Path findings inside developer PRs via SARIF 2.1.0 & inline code suggestions",
+  "type": "module",
+  "scripts": {
+    "test": "node --test src/sarif_pr_bot.test.mjs"
+  }
+}

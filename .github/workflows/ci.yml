@@ -1,0 +1,60 @@
+name: Prism-Toxic-Path AppSec SDLC & Wiz Graph Release Gate CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  wiz-graph-correlator-and-ast-reachability:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run Wiz Toxic-Combination Graph Correlator, AST Reachability & STRIDE Threat Modeler
+        working-directory: ./engine-wiz-graph-correlator
+        run: |
+          pip install -r requirements.txt
+          PYTHONPATH=. pytest -v
+
+  ai-assisted-development-guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run AI Coding Agent Guardrails (Slopsquatting, Entropy Secrets, SQLi & MCP Firewall)
+        working-directory: ./guard-ai-coding-agent
+        run: |
+          pip install -r requirements.txt
+          PYTHONPATH=. pytest -v
+
+  iac-and-container-preprod-release-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Go 1.22
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+      - name: Run Go IaC (Terraform/K8s) & Container Hardening Release Gate
+        working-directory: ./scanner-iac-container-gate
+        run: go test -v ./...
+
+  developer-pr-sarif-and-autofix-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run SARIF v2.1.0 & One-Click PR Suggestion Bot Suite
+        working-directory: ./developer-pr-sarif-bot
+        run: npm test
