@@ -1,7 +1,7 @@
 import math
 import re
 from dataclasses import dataclass, field
-from typing import Dict, List, Set
+from typing import Dict, List, Set, Tuple
 
 
 APPROVED_ENTERPRISE_PACKAGES: Set[str] = {
@@ -16,7 +16,7 @@ SECRET_PATTERNS: Dict[str, re.Pattern[str]] = {
     "PRIVATE_KEY_HEADER": re.compile(r"-----BEGIN (?:RSA|EC|OPENSSH|PRIVATE) KEY-----"),
 }
 
-INSECURE_AI_CODE_PATTERNS: Dict[str, TupleRule] = {}
+INSECURE_AI_CODE_PATTERNS: Dict[str, Tuple[str, str]] = {}
 
 
 @dataclass(frozen=True)
